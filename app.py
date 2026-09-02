@@ -239,6 +239,103 @@ code, pre {
     margin: 4px 0;
 }
 
+/* ── STEP-BY-STEP SCROLLABLE PROOF ── */
+.step-scroll-box {
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 4px 10px 4px 2px;
+    margin-top: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139,92,246,0.5) rgba(15,23,42,0.6);
+}
+.step-scroll-box::-webkit-scrollbar { width: 5px; }
+.step-scroll-box::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 8px; }
+.step-scroll-box::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #38BDF8); border-radius: 8px; }
+.step-row {
+    display: flex;
+    gap: 10px;
+    background: rgba(12,18,35,0.75);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 7px;
+    font-size: 12.5px;
+    color: #E2E8F0;
+    line-height: 1.5;
+}
+.step-num {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    background: rgba(139,92,246,0.22);
+    color: #C084FC;
+}
+
+/* ── CLEAN SEGMENT PILL (no emoji, vivid solid accent) ── */
+.segment-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    padding: 13px 18px;
+    margin-bottom: 12px;
+    border-left-width: 5px;
+    border-left-style: solid;
+    background: rgba(15,23,42,0.9);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+.segment-pill-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14.5px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.segment-pill-badge {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #94A3B8;
+    background: rgba(255,255,255,0.05);
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+/* ── CLEAN DETAIL PANEL (no emoji) ── */
+.detail-banner {
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    margin: 8px 0 10px 0;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #E2E8F0;
+    border-left: 4px solid;
+}
+.detail-label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    opacity: 0.9;
+}
+
+/* ── APPLY FIX BUTTON HIGHLIGHT ── */
+.stButton button[kind="primary"] {
+    box-shadow: 0 4px 14px rgba(139,92,246,0.35);
+}
+
 .use-banner {
     background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(124,58,237,0.08));
     border-left: 4px solid #38BDF8;
@@ -363,7 +460,8 @@ code, pre {
 defaults = {
     "code_input": "", "goal_input": "", "language": "Python",
     "analysis_data": None, "improved_data": None,
-    "chat_history": {}, "active_inspect_tab": None
+    "chat_history": {}, "active_inspect_tab": None,
+    "show_time_steps": False, "show_space_steps": False
 }
 for k, v in defaults.items():
     if k not in st.session_state:
@@ -558,6 +656,8 @@ CRITICAL RULES:
 3. TIME & SPACE COMPLEXITY WITH PROOF:
    - Provide standard Big-O notation for both time and space.
    - For time_complexity_reasoning and space_complexity_reasoning, write 1-2 simple sentences explaining exactly why that is the case.
+   - Additionally provide "time_complexity_steps" and "space_complexity_steps": ordered arrays of short strings that walk through the FULL step-by-step derivation from start to finish (e.g. "The outer loop runs N times because it visits every item once.", "Inside it we do constant-time work, so total work is N x 1."), so a beginner can follow the complete proof one step at a time.
+   - Additionally provide "time_complexity_steps" and "space_complexity_steps": ordered arrays of short strings walking through the FULL step-by-step derivation (e.g. "Step 1: The outer loop runs N times because it visits every item once.", "Step 2: ...") so a beginner can follow the entire proof from start to finish.
 4. CODE SEGREGATION:
    - Divide into natural, contiguous logical segments.
    - "name": Uppercase label format like 'INITIALIZATION — CLASS INITIALIZATION' or 'INPUT — READ USER VALUES' or 'CALCULATION — COMPUTE TOTAL'.
@@ -584,8 +684,10 @@ Respond ONLY with a VALID JSON object adhering strictly to this schema:
   "overall_analysis": {{
     "time_complexity": "O(N)",
     "time_complexity_reasoning": "We loop through the list once from start to finish, so if there are N items, it takes N steps.",
+    "time_complexity_steps": ["Step 1: ...", "Step 2: ...", "Step 3: ..."],
     "space_complexity": "O(1)",
     "space_complexity_reasoning": "We only use a single variable to store the total sum, requiring no extra memory.",
+    "space_complexity_steps": ["Step 1: ...", "Step 2: ...", "Step 3: ..."],
     "functions": [
       {{"name": "function_name", "type": "User-defined" | "Built-in", "use": "Stores a new expense name and amount"}}
     ],
@@ -621,7 +723,9 @@ Respond ONLY with a VALID JSON object adhering strictly to this schema:
             "aim_verification": {"status": "PARTIAL", "headline": "Analysis Error", "explanation": str(e)},
             "overall_analysis": {
                 "time_complexity": "O(N)", "time_complexity_reasoning": "Runs through the main instructions sequentially.",
+                "time_complexity_steps": [],
                 "space_complexity": "O(1)", "space_complexity_reasoning": "Uses a fixed amount of memory.",
+                "space_complexity_steps": [],
                 "functions": [], "variables": [], "keywords": []
             },
             "segments": [{
@@ -851,6 +955,15 @@ with col_right:
                     if err_info.get("corrected_code"):
                         st.markdown("**✅ Corrected Working Code:**")
                         st.code(err_info.get("corrected_code"), language=st.session_state["language"].lower())
+                        if st.button("🛠️ Apply Corrected Code", key="apply_fix_btn", type="primary", use_container_width=True):
+                            st.session_state["code_input"] = err_info.get("corrected_code")
+                            st.session_state["analysis_data"] = None
+                            st.session_state["improved_data"] = None
+                            st.session_state["active_inspect_tab"] = None
+                            st.session_state["show_time_steps"] = False
+                            st.session_state["show_space_steps"] = False
+                            st.success("Corrected code applied to the editor. Click Decode Code again to re-analyze.")
+                            st.rerun()
 
                     st.markdown("---")
 
@@ -861,9 +974,11 @@ with col_right:
                 
                 t_val = overall.get("time_complexity") or "O(N)"
                 t_proof = overall.get("time_complexity_reasoning") or "Derived by analyzing loop iterations and recursive paths relative to input size N."
-                
+                t_steps = overall.get("time_complexity_steps") or []
+
                 s_val = overall.get("space_complexity") or "O(1)"
                 s_proof = overall.get("space_complexity_reasoning") or "Derived by tracking additional memory structures, arrays, and variables relative to input size N."
+                s_steps = overall.get("space_complexity_steps") or []
 
                 col_t, col_s = st.columns(2)
                 with col_t:
@@ -879,6 +994,17 @@ with col_right:
                             <strong>Explanation:</strong><br>{t_proof}
                         </div>
                         """, unsafe_allow_html=True)
+                        if st.button("📐 Step-by-Step Solution", key="btn_time_steps", use_container_width=True):
+                            st.session_state["show_time_steps"] = not st.session_state["show_time_steps"]
+                        if st.session_state["show_time_steps"]:
+                            if t_steps:
+                                rows = "".join(
+                                    f'<div class="step-row"><span class="step-num">{i}</span><span>{step}</span></div>'
+                                    for i, step in enumerate(t_steps, 1)
+                                )
+                                st.markdown(f'<div class="step-scroll-box">{rows}</div>', unsafe_allow_html=True)
+                            else:
+                                st.caption("No detailed step-by-step breakdown available.")
 
                 with col_s:
                     st.markdown(f"""
@@ -893,6 +1019,17 @@ with col_right:
                             <strong>Explanation:</strong><br>{s_proof}
                         </div>
                         """, unsafe_allow_html=True)
+                        if st.button("📐 Step-by-Step Solution", key="btn_space_steps", use_container_width=True):
+                            st.session_state["show_space_steps"] = not st.session_state["show_space_steps"]
+                        if st.session_state["show_space_steps"]:
+                            if s_steps:
+                                rows = "".join(
+                                    f'<div class="step-row"><span class="step-num">{i}</span><span>{step}</span></div>'
+                                    for i, step in enumerate(s_steps, 1)
+                                )
+                                st.markdown(f'<div class="step-scroll-box">{rows}</div>', unsafe_allow_html=True)
+                            else:
+                                st.caption("No detailed step-by-step breakdown available.")
 
                 # ============================================================
                 # ON-DEMAND TOGGLE: FUNCTIONS, VARIABLES, KEYWORDS
@@ -974,7 +1111,7 @@ with col_right:
                 # ============================================================
                 # SECTION 2 — EXACT ATTACHED IMAGE SEGMENT PILLS
                 # ============================================================
-                st.markdown('<div class="panel-heading">🧩 Segments — Click to Explore</div>', unsafe_allow_html=True)
+                st.markdown('<div class="panel-heading">Segments — Click to Explore</div>', unsafe_allow_html=True)
 
                 if not has_err:
                     for idx, seg in enumerate(segments, 1):
@@ -987,33 +1124,29 @@ with col_right:
 
                         theme = get_segment_theme(idx, seg_name)
 
-                        expander_label = f"{theme['icon']} {seg_name}  —  {seg_use}"
-                        
+                        # No emojis in the segments section — clean, vivid text only
+                        expander_label = f"{seg_name}  —  {seg_use}"
+
                         with st.expander(expander_label, expanded=False):
-                            # EXACT CARD REPLICATION OF USER ATTACHED IMAGE
+                            # CLEAN, VIVID SEGMENT PILL — no emojis
                             st.markdown(f"""
-                            <div class="segment-header-card" style="background:{theme['bg']};border:{theme['border']};">
-                                <span class="segment-header-title" style="color:{theme['color']};">
-                                    <span>{theme['icon']}</span>
-                                    <span>{seg_name}</span>
-                                </span>
-                                <span class="segment-header-badge">
-                                    Segment #{idx}
-                                </span>
+                            <div class="segment-pill" style="border-left-color:{theme['color']};">
+                                <span class="segment-pill-title" style="color:{theme['color']};">{seg_name}</span>
+                                <span class="segment-pill-badge">Segment #{idx}</span>
                             </div>
                             """, unsafe_allow_html=True)
 
                             if seg_purpose:
                                 st.markdown(f"""
-                                <div class="use-banner">
-                                    <strong>🎯 Purpose:</strong> {seg_purpose}
+                                <div class="detail-banner" style="background:linear-gradient(90deg, {theme['color']}1F, transparent); border-left-color:{theme['color']};">
+                                    <span class="detail-label" style="color:{theme['color']};">Purpose</span>{seg_purpose}
                                 </div>
                                 """, unsafe_allow_html=True)
-                            
+
                             if seg_logic:
                                 st.markdown(f"""
-                                <div class="logic-banner">
-                                    <strong>🧠 Logic & Thinking:</strong> {seg_logic}
+                                <div class="detail-banner" style="background:linear-gradient(90deg, rgba(148,163,184,0.12), transparent); border-left-color:#94A3B8;">
+                                    <span class="detail-label" style="color:#CBD5E1;">Logic &amp; Thinking</span>{seg_logic}
                                 </div>
                                 """, unsafe_allow_html=True)
 
@@ -1021,7 +1154,7 @@ with col_right:
                             st.code(seg_code, language=st.session_state["language"].lower())
 
                             # Line-by-Line Breakdown
-                            with st.expander("📖 View Line-by-Line Explanation", expanded=False):
+                            with st.expander("View Line-by-Line Explanation", expanded=False):
                                 if line_explanations:
                                     for l_item in line_explanations:
                                         st.markdown(f"""
