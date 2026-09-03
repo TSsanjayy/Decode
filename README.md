@@ -52,8 +52,6 @@ The API key can be entered directly through the application's sidebar.
 
 For local development, the API key can also be stored in a `.env` file:
 
-```env
-GEMINI_API_KEY=your_api_key_here
 🧪 Testing
 
 The application was tested during development using multiple Python programs and different types of code inputs.
@@ -105,3 +103,34 @@ Programming language support
 Analysis quality depends on the selected language and the Gemini model's ability to understand that language.
 Response speed
 The application may appear slow when the Gemini API takes longer to respond.
+🚀 How to Run Locally
+1. Clone the repository
+git clone https://github.com/TSsanjayy/Decode.git
+2. Open the project
+cd Decode
+3. Create a virtual environment
+python -m venv venv
+4. Activate the virtual environment
+
+Windows:
+
+venv\Scripts\activate
+5. Install dependencies
+pip install -r requirements.txt
+6. Add your Gemini API key
+
+Create a .env file:
+
+GEMINI_API_KEY=your_api_key_here
+7. Run the application
+streamlit run app.py
+
+The application will open in your browser.
+
+☁️ Deployment
+
+DECODE can be deployed using Streamlit Community Cloud.
+
+The application is connected to the GitHub repository and uses requirements.txt to install the required Python packages.
+
+For deployment, the Gemini API key should be added through the application's deployment secrets/settings rather than being uploaded to GitHub.
