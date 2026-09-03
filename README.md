@@ -52,7 +52,7 @@ The API key can be entered directly through the application's sidebar.
 
 For local development, the API key can also be stored in a `.env` file:
 
-🧪 Testing
+##🧪 Testing
 
 The application was tested during development using multiple Python programs and different types of code inputs.
 
@@ -84,7 +84,7 @@ Selected Gemini model
 
 Short programs generally receive responses faster than large programs.
 
-⚠️ Limitations
+##⚠️ Limitations
 
 DECODE currently has some limitations:
 
@@ -103,7 +103,8 @@ Programming language support
 Analysis quality depends on the selected language and the Gemini model's ability to understand that language.
 Response speed
 The application may appear slow when the Gemini API takes longer to respond.
-🚀 How to Run Locally
+
+##🚀 How to Run Locally
 1. Clone the repository
 git clone https://github.com/TSsanjayy/Decode.git
 2. Open the project
@@ -127,7 +128,7 @@ streamlit run app.py
 
 The application will open in your browser.
 
-☁️ Deployment
+##☁️ Deployment
 
 DECODE can be deployed using Streamlit Community Cloud.
 
