@@ -51,8 +51,11 @@ DECODE requires a **Google Gemini API key** to perform AI-based analysis.
 The API key can be entered directly through the application's sidebar.
 
 For local development, the API key can also be stored in a `.env` file:
+```env
+GEMINI_API_KEY=your_api_key_here
+```
 
-##🧪 Testing
+## 🧪 Testing
 
 The application was tested during development using multiple Python programs and different types of code inputs.
 
@@ -72,7 +75,8 @@ Tests performed
 The Gemini API was tested multiple times during development to verify that the application could successfully send code, receive an AI response, and display the result.
 
 API availability and usage limits depend on the Gemini model and the limits associated with the user's Google AI account.
-⚡ Performance
+
+## ⚡ Performance
 
 The response time depends mainly on:
 
@@ -84,7 +88,7 @@ Selected Gemini model
 
 Short programs generally receive responses faster than large programs.
 
-##⚠️ Limitations
+## ⚠️ Limitations
 
 DECODE currently has some limitations:
 
@@ -104,7 +108,8 @@ Analysis quality depends on the selected language and the Gemini model's ability
 Response speed
 The application may appear slow when the Gemini API takes longer to respond.
 
-##🚀 How to Run Locally
+## 🚀 How to Run Locally
+
 1. Clone the repository
 git clone https://github.com/TSsanjayy/Decode.git
 2. Open the project
@@ -128,10 +133,46 @@ streamlit run app.py
 
 The application will open in your browser.
 
-##☁️ Deployment
+## ☁️ Deployment
 
 DECODE can be deployed using Streamlit Community Cloud.
 
 The application is connected to the GitHub repository and uses requirements.txt to install the required Python packages.
 
 For deployment, the Gemini API key should be added through the application's deployment secrets/settings rather than being uploaded to GitHub.
+📁 Project Structure
+Decode/
+│
+├── .streamlit/
+│   └── config.toml
+│
+├── app.py
+├── requirements.txt
+├── .gitignore
+├── README.md
+└── py
+🎯 Project Objective
+
+The main objective of DECODE is to make programming easier for beginners by transforming complicated source code into simple, understandable explanations.
+
+Instead of only showing the final output of a program, DECODE focuses on explaining:
+
+What the code does
+Why each section is present
+How the logic works
+Which functions and variables are important
+How efficient the algorithm is
+
+## 🔮 Future Improvements
+
+Possible future improvements include:
+
+🌐 Support for more programming languages
+📈 Improved complexity analysis
+🐞 More advanced error detection
+📝 Automatic code documentation
+💬 Improved AI chat-based code tutoring
+📊 Visual representation of algorithms
+⚡ Faster response processing
+🔄 Multiple AI model support
+📥 Export analysis as PDF or document
