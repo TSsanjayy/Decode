@@ -140,18 +140,8 @@ DECODE can be deployed using Streamlit Community Cloud.
 The application is connected to the GitHub repository and uses requirements.txt to install the required Python packages.
 
 For deployment, the Gemini API key should be added through the application's deployment secrets/settings rather than being uploaded to GitHub.
-📁 Project Structure
-Decode/
-│
-├── .streamlit/
-│   └── config.toml
-│
-├── app.py
-├── requirements.txt
-├── .gitignore
-├── README.md
-└── py
-🎯 Project Objective
+
+## 🎯 Project Objective
 
 The main objective of DECODE is to make programming easier for beginners by transforming complicated source code into simple, understandable explanations.
 
