@@ -20,7 +20,7 @@ except ImportError:
 load_dotenv()
 
 st.set_page_config(
-    page_title="Decode — EVERY LINE makes sense.",
+    page_title="Decode — Know What You Code.",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -66,7 +66,7 @@ if ACTIVE_API_KEY:
 
 # ── CSS & CUSTOM TYPOGRAPHY ────────────────────────────────
 st.markdown("""<style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800;900&family=Orbitron:wght@700;800;900&display=swap');
 
 html, body, [class*="css"] { 
     font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -77,10 +77,10 @@ code, pre {
 
 .stApp {
     background:
-        radial-gradient(circle at 10% 15%, rgba(124,58,237,0.22), transparent 40%),
-        radial-gradient(circle at 90% 15%, rgba(6,182,212,0.18), transparent 40%),
-        radial-gradient(circle at 50% 85%, rgba(236,72,153,0.12), transparent 45%),
-        #060913;
+        radial-gradient(circle at 10% 15%, rgba(124,58,237,0.14), transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(217,119,6,0.10), transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(236,72,153,0.07), transparent 45%),
+        #04050b;
     color: #F1F5F9;
 }
 .block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 100%; }
@@ -102,10 +102,10 @@ code, pre {
 }
 .scroll-container::-webkit-scrollbar { width: 6px; }
 .scroll-container::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 10px; }
-.scroll-container::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #38BDF8); border-radius: 10px; }
+.scroll-container::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #F472B6); border-radius: 10px; }
 
 .inspect-box {
-    background: rgba(12,18,35,0.85);
+    background: rgba(6,9,18,0.92);
     border: 1px solid rgba(139,92,246,0.35);
     border-radius: 14px;
     padding: 14px;
@@ -121,45 +121,130 @@ code, pre {
 }
 .inspect-scroll::-webkit-scrollbar { width: 5px; }
 .inspect-scroll::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 8px; }
-.inspect-scroll::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #38BDF8); border-radius: 8px; }
+.inspect-scroll::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #F472B6); border-radius: 8px; }
 
 /* ── HERO BANNER ── */
 .hero-header {
-    padding: 24px 32px;
+    position: relative;
+    padding: 26px 34px;
     border-radius: 22px;
-    background: linear-gradient(135deg, rgba(26,16,65,0.95), rgba(9,14,32,0.98));
-    border: 1px solid rgba(139,92,246,0.4);
+    background: linear-gradient(135deg, rgba(7,9,20,0.98) 0%, rgba(14,8,28,0.98) 55%, rgba(4,14,22,0.98) 100%);
+    border: 1px solid rgba(251,191,36,0.3);
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+    gap: 24px;
+    flex-wrap: wrap;
+    box-shadow: 0 16px 45px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+    overflow: hidden;
+}
+.hero-header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FBBF24 0%, #A855F7 50%, #F472B6 100%);
+}
+.hero-header::after {
+    content: "";
+    position: absolute;
+    top: -60%; right: -10%;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(251,191,36,0.14), transparent 65%);
+    pointer-events: none;
+}
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.hero-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.hero-brand-dash {
+    display: inline-block;
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: #EF4444;
+    box-shadow: 0 0 8px rgba(239,68,68,0.7);
 }
 .hero-brand {
-    font-size: 42px;
-    font-weight: 900;
+    font-size: 46px;
+    font-weight: 800;
     margin: 0;
-    line-height: 1.1;
-    letter-spacing: -1px;
-    font-family: 'Space Grotesk', sans-serif;
-    background: linear-gradient(90deg, #C084FC 0%, #38BDF8 50%, #F472B6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 10px rgba(192,132,252,0.3));
+    line-height: 1.2;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+    color: #E8ECF1;
+    text-shadow: 0 0 1px rgba(232,236,241,0.6), 0 0 22px rgba(148,163,184,0.28);
+    display: inline-block;
+    transform: scaleY(1.2);
+    transform-origin: center;
 }
 .hero-tagline {
-    color: #38BDF8;
-    font-size: 14px;
+    color: #FBBF24;
+    font-size: 13.5px;
     font-weight: 800;
-    letter-spacing: 2.5px;
+    letter-spacing: 2.8px;
     text-transform: uppercase;
-    margin-top: 5px;
+    margin-top: 8px;
     font-family: 'Space Grotesk', sans-serif;
-    text-shadow: 0 0 12px rgba(56,189,248,0.4);
+    text-shadow: 0 0 12px rgba(251,191,36,0.4);
+}
+.tagline-code {
+    font-weight: 900;
+    color: #EF4444;
+    text-shadow: 0 0 10px rgba(239,68,68,0.45);
+}
+.hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+.hero-badge {
+    position: relative;
+    background: linear-gradient(135deg, rgba(251,191,36,0.16), rgba(168,85,247,0.20));
+    border: 1px solid rgba(251,191,36,0.45);
+    padding: 9px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #FBBF24;
+    font-family: 'Space Grotesk', sans-serif;
+    box-shadow: 0 4px 16px rgba(251,191,36,0.15);
+    white-space: nowrap;
+}
+.hero-chip-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.hero-chip {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #CBD5E1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    padding: 6px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
 }
 
+
 .glass-card {
-    background: rgba(15,23,42,0.85);
+    background: rgba(7,10,20,0.9);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 18px;
@@ -226,7 +311,7 @@ code, pre {
 
 /* ── COMPLEXITY BOXES ── */
 .complexity-box {
-    background: rgba(15,23,42,0.88);
+    background: rgba(8,11,22,0.92);
     border: 1px solid rgba(255,255,255,0.09);
     border-radius: 14px;
     padding: 14px 16px;
@@ -250,11 +335,11 @@ code, pre {
 }
 .step-scroll-box::-webkit-scrollbar { width: 5px; }
 .step-scroll-box::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 8px; }
-.step-scroll-box::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #38BDF8); border-radius: 8px; }
+.step-scroll-box::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #F472B6); border-radius: 8px; }
 .step-row {
     display: flex;
     gap: 10px;
-    background: rgba(12,18,35,0.75);
+    background: rgba(6,9,18,0.85);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 10px;
     padding: 9px 12px;
@@ -288,8 +373,8 @@ code, pre {
     margin-bottom: 12px;
     border-left-width: 5px;
     border-left-style: solid;
-    background: rgba(15,23,42,0.9);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    background: rgba(7,10,20,0.94);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
 }
 .segment-pill-title {
     font-family: 'Space Grotesk', sans-serif;
@@ -308,6 +393,76 @@ code, pre {
     border-radius: 20px;
     flex-shrink: 0;
     margin-left: 10px;
+}
+
+/* ── CODE SUMMARY & KEY FEATURES ── */
+.summary-box {
+    background: rgba(7,10,20,0.92);
+    border: 1px solid rgba(251,191,36,0.28);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-top: 10px;
+    margin-bottom: 14px;
+}
+.summary-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: #FBBF24;
+    letter-spacing: 0.3px;
+    margin: 0 0 8px 0;
+}
+.summary-heading.alt { color: #C084FC; margin-top: 16px; }
+.summary-text {
+    font-size: 13.5px;
+    color: #E2E8F0;
+    line-height: 1.6;
+    margin: 0 0 4px 0;
+}
+.how-it-works-row {
+    display: flex;
+    gap: 10px;
+    background: rgba(15,23,42,0.55);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #E2E8F0;
+    line-height: 1.5;
+}
+.how-it-works-num {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 800;
+    background: rgba(251,191,36,0.18);
+    color: #FBBF24;
+}
+.key-feature-row {
+    background: rgba(15,23,42,0.55);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: #E2E8F0;
+    line-height: 1.55;
+}
+.key-feature-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #FCD34D;
+    background: rgba(252,211,77,0.12);
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 6px;
 }
 
 /* ── CLEAN DETAIL PANEL (no emoji) ── */
@@ -337,8 +492,8 @@ code, pre {
 }
 
 .use-banner {
-    background: linear-gradient(90deg, rgba(56,189,248,0.12), rgba(124,58,237,0.08));
-    border-left: 4px solid #38BDF8;
+    background: linear-gradient(90deg, rgba(251,191,36,0.12), rgba(124,58,237,0.08));
+    border-left: 4px solid #FBBF24;
     padding: 10px 14px;
     border-radius: 0 10px 10px 0;
     color: #E2E8F0;
@@ -399,12 +554,12 @@ code, pre {
     font-family: 'JetBrains Mono', monospace;
     background: rgba(30,41,59,0.85);
     border: 1px solid rgba(255,255,255,0.12);
-    color: #38BDF8;
+    color: #FBBF24;
     margin-right: 6px;
 }
 
 .line-card {
-    background: rgba(15,23,42,0.75);
+    background: rgba(6,9,18,0.85);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 12px;
     padding: 12px 14px;
@@ -413,7 +568,7 @@ code, pre {
 .line-code {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    color: #7DD3FC;
+    color: #FCD34D;
     background: rgba(12,18,35,0.7);
     padding: 5px 8px;
     border-radius: 6px;
@@ -470,42 +625,42 @@ for k, v in defaults.items():
 # ── EXACT ATTACHED IMAGE THEMES (Vibrant & Neon) ───────────
 SEGMENT_THEMES = [
     {
-        "icon": "✨", "color": "#C084FC",
+        "icon": "✨", "color": "#C084FC", "st_color": "violet",
         "bg": "linear-gradient(90deg, rgba(88,28,135,0.45) 0%, rgba(30,15,60,0.7) 100%)",
         "border": "1px solid rgba(192,132,252,0.65)"
     },
     {
-        "icon": "📥", "color": "#38BDF8",
-        "bg": "linear-gradient(90deg, rgba(3,105,161,0.45) 0%, rgba(12,25,55,0.7) 100%)",
-        "border": "1px solid rgba(56,189,248,0.65)"
+        "icon": "📥", "color": "#CBD5E1", "st_color": "gray",
+        "bg": "linear-gradient(90deg, rgba(51,65,85,0.45) 0%, rgba(15,20,30,0.7) 100%)",
+        "border": "1px solid rgba(203,213,225,0.5)"
     },
     {
-        "icon": "⚙️", "color": "#FB923C",
+        "icon": "⚙️", "color": "#FB923C", "st_color": "orange",
         "bg": "linear-gradient(90deg, rgba(194,65,12,0.45) 0%, rgba(45,20,15,0.7) 100%)",
         "border": "1px solid rgba(251,146,60,0.65)"
     },
     {
-        "icon": "🧮", "color": "#34D399",
+        "icon": "🧮", "color": "#34D399", "st_color": "green",
         "bg": "linear-gradient(90deg, rgba(4,120,87,0.45) 0%, rgba(10,35,25,0.7) 100%)",
         "border": "1px solid rgba(52,211,153,0.65)"
     },
     {
-        "icon": "🔀", "color": "#F472B6",
+        "icon": "🔀", "color": "#F472B6", "st_color": "red",
         "bg": "linear-gradient(90deg, rgba(190,24,93,0.45) 0%, rgba(40,15,30,0.7) 100%)",
         "border": "1px solid rgba(244,114,182,0.65)"
     },
     {
-        "icon": "🔄", "color": "#FBBF24",
+        "icon": "🔄", "color": "#FBBF24", "st_color": "orange",
         "bg": "linear-gradient(90deg, rgba(180,83,9,0.45) 0%, rgba(40,25,10,0.7) 100%)",
         "border": "1px solid rgba(251,191,36,0.65)"
     },
     {
-        "icon": "📤", "color": "#2DD4BF",
+        "icon": "📤", "color": "#2DD4BF", "st_color": "green",
         "bg": "linear-gradient(90deg, rgba(15,118,110,0.45) 0%, rgba(10,30,30,0.7) 100%)",
         "border": "1px solid rgba(45,212,191,0.65)"
     },
     {
-        "icon": "🚀", "color": "#818CF8",
+        "icon": "🚀", "color": "#818CF8", "st_color": "violet",
         "bg": "linear-gradient(90deg, rgba(67,56,202,0.45) 0%, rgba(20,15,50,0.7) 100%)",
         "border": "1px solid rgba(129,140,248,0.65)"
     }
@@ -651,19 +806,23 @@ USER CODE ({language}):
 {code}
 
 CRITICAL RULES:
-1. EXPLAIN SIMPLY: Use clear, everyday English. Avoid dense academic words.
+1. EXPLAIN SIMPLY: Use short sentences (max ~15-18 words), everyday words, and a real-world analogy where it helps. Avoid dense academic or jargon-heavy words entirely. Write like you're explaining to a smart 12-year-old who has never coded before.
 2. CHECK FOR ERRORS: If there is a syntax or logical crash, set "has_error": true, describe the error, and provide the working "corrected_code".
 3. TIME & SPACE COMPLEXITY WITH PROOF:
    - Provide standard Big-O notation for both time and space.
    - For time_complexity_reasoning and space_complexity_reasoning, write 1-2 simple sentences explaining exactly why that is the case.
-   - Additionally provide "time_complexity_steps" and "space_complexity_steps": ordered arrays of short strings that walk through the FULL step-by-step derivation from start to finish (e.g. "The outer loop runs N times because it visits every item once.", "Inside it we do constant-time work, so total work is N x 1."), so a beginner can follow the complete proof one step at a time.
    - Additionally provide "time_complexity_steps" and "space_complexity_steps": ordered arrays of short strings walking through the FULL step-by-step derivation (e.g. "Step 1: The outer loop runs N times because it visits every item once.", "Step 2: ...") so a beginner can follow the entire proof from start to finish.
-4. CODE SEGREGATION:
+4. CODE SUMMARY (high level, before segments):
+   - "what_it_does": 1-3 simple sentences describing the overall goal of the program in plain English, no jargon.
+   - "how_it_works": an ordered array of short, simple sentences (like a numbered story) walking through what the program does from start to finish, in the order it happens.
+5. KEY FEATURES:
+   - "key_features": an array of the most important lines, parameters, or function calls in the code that a beginner should notice (e.g. a timeout parameter, a specific method call, a safety check). For each: "code" is the exact short snippet (like `timeout=5` or `raise_for_status()`), and "description" is one simple sentence on why it matters.
+6. CODE SEGREGATION:
    - Divide into natural, contiguous logical segments.
    - "name": Uppercase label format like 'INITIALIZATION — CLASS INITIALIZATION' or 'INPUT — READ USER VALUES' or 'CALCULATION — COMPUTE TOTAL'.
    - "use": Exactly ONE short, super-simple sentence.
-   - "purpose": 1-2 simple sentences explaining what this part does and why we need it.
-   - "logic": 1-2 simple sentences explaining the algorithm / step-by-step thinking in plain English.
+   - "purpose": 1-2 short, simple sentences (max ~15 words each) explaining what this part does and why it's needed. Use an everyday comparison if it helps beginners.
+   - "logic": 1-2 short, simple sentences explaining the step-by-step thinking in plain English, as if narrating out loud.
    - "line_by_line": Step-by-step breakdown of every line in plain, beginner-friendly English.
 
 Respond ONLY with a VALID JSON object adhering strictly to this schema:
@@ -681,6 +840,13 @@ Respond ONLY with a VALID JSON object adhering strictly to this schema:
     "headline": "Short status headline",
     "explanation": "2 simple sentences on whether the code matches the user's aim."
   }},
+  "code_summary": {{
+    "what_it_does": "1-3 simple sentences on the overall goal of the program.",
+    "how_it_works": ["It loads the requests library so Python can talk to websites.", "It defines a function that takes a user id.", "..."]
+  }},
+  "key_features": [
+    {{"code": "timeout=5", "description": "Prevents the script from hanging forever if the server does not respond."}}
+  ],
   "overall_analysis": {{
     "time_complexity": "O(N)",
     "time_complexity_reasoning": "We loop through the list once from start to finish, so if there are N items, it takes N steps.",
@@ -721,6 +887,8 @@ Respond ONLY with a VALID JSON object adhering strictly to this schema:
         return {
             "has_error": False,
             "aim_verification": {"status": "PARTIAL", "headline": "Analysis Error", "explanation": str(e)},
+            "code_summary": {"what_it_does": "", "how_it_works": []},
+            "key_features": [],
             "overall_analysis": {
                 "time_complexity": "O(N)", "time_complexity_reasoning": "Runs through the main instructions sequentially.",
                 "time_complexity_steps": [],
@@ -775,13 +943,23 @@ Respond ONLY with VALID JSON:
 # ── HERO BANNER ────────────────────────────────────────────
 st.markdown("""
 <div class="hero-header">
-    <div>
-        <div class="hero-brand">Decode</div>
-        <div class="hero-tagline">"EVERY LINE makes sense."</div>
+    <div class="hero-left">
+        <div class="hero-brand-row">
+            <span class="hero-brand-dash"></span>
+            <span class="hero-brand">Decode</span>
+            <span class="hero-brand-dash"></span>
+        </div>
+        <div class="hero-tagline">Know what you <span class="tagline-code">CODE</span></div>
     </div>
-    <span style="background:rgba(124,58,237,0.25);border:1px solid rgba(124,58,237,0.5);padding:8px 16px;border-radius:12px;font-size:13px;font-weight:700;color:#C084FC;font-family:'Space Grotesk',sans-serif;">
-        ✨ Powered by Gemini
-    </span>
+    <div class="hero-right">
+        <span class="hero-badge">✨ Powered by Gemini</span>
+        <div class="hero-chip-row">
+            <span class="hero-chip">🚨 Bug Fixer</span>
+            <span class="hero-chip">📊 Complexity Proofs</span>
+            <span class="hero-chip">🧩 Segments</span>
+            <span class="hero-chip">⚡ Optimizer</span>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -983,14 +1161,14 @@ with col_right:
                 col_t, col_s = st.columns(2)
                 with col_t:
                     st.markdown(f"""
-                    <div class="complexity-box" style="border-color:rgba(56,189,248,0.35);">
+                    <div class="complexity-box" style="border-color:rgba(251,191,36,0.35);">
                         <span style="color:#94A3B8;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;">⏳ Time Complexity</span>
-                        <div class="complexity-value" style="color:#38BDF8;">{t_val}</div>
+                        <div class="complexity-value" style="color:#FBBF24;">{t_val}</div>
                     </div>
                     """, unsafe_allow_html=True)
                     with st.expander("🔍 How Time Complexity was calculated", expanded=False):
                         st.markdown(f"""
-                        <div style="background:rgba(12,18,35,0.7);padding:12px 14px;border-radius:10px;border-left:3px solid #38BDF8;font-size:13px;color:#E2E8F0;line-height:1.6;">
+                        <div style="background:rgba(12,18,35,0.7);padding:12px 14px;border-radius:10px;border-left:3px solid #FBBF24;font-size:13px;color:#E2E8F0;line-height:1.6;">
                             <strong>Explanation:</strong><br>{t_proof}
                         </div>
                         """, unsafe_allow_html=True)
@@ -1065,10 +1243,10 @@ with col_right:
                     if funcs:
                         for f in funcs:
                             ftype = f.get("type", "Function")
-                            fcolor = "#34D399" if "user" in ftype.lower() else "#38BDF8"
+                            fcolor = "#34D399" if "user" in ftype.lower() else "#FBBF24"
                             st.markdown(f"""
                             <div style="background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
-                                <span style="font-family:JetBrains Mono,monospace;color:#7DD3FC;font-weight:700;font-size:13.5px;">{f.get('name', '')}</span><br>
+                                <span style="font-family:JetBrains Mono,monospace;color:#FCD34D;font-weight:700;font-size:13.5px;">{f.get('name', '')}</span><br>
                                 <span style="background:{fcolor}22;color:{fcolor};font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:4px;">{ftype}</span><br>
                                 <span style="color:#CBD5E1;font-size:12.5px;margin-top:4px;display:block;">{f.get('use', '')}</span>
                             </div>
@@ -1109,6 +1287,57 @@ with col_right:
                 st.markdown("---")
 
                 # ============================================================
+                # SECTION 1.5 — CODE SUMMARY & KEY FEATURES (above segments)
+                # ============================================================
+                if not has_err:
+                    code_summary = data.get("code_summary", {}) or {}
+                    key_features = data.get("key_features", []) or []
+                    what_it_does = code_summary.get("what_it_does", "")
+                    how_it_works = code_summary.get("how_it_works", []) or []
+
+                    col_sum, col_feat = st.columns(2)
+                    with col_sum:
+                        sum_btn_type = "primary" if st.session_state["active_inspect_tab"] == "summary" else "secondary"
+                        if st.button("Code Summary", key="btn_summary", type=sum_btn_type, use_container_width=True):
+                            st.session_state["active_inspect_tab"] = None if st.session_state["active_inspect_tab"] == "summary" else "summary"
+                            st.rerun()
+                    with col_feat:
+                        feat_btn_type = "primary" if st.session_state["active_inspect_tab"] == "keyfeatures" else "secondary"
+                        if st.button(f"Key Features ({len(key_features)})", key="btn_keyfeatures", type=feat_btn_type, use_container_width=True):
+                            st.session_state["active_inspect_tab"] = None if st.session_state["active_inspect_tab"] == "keyfeatures" else "keyfeatures"
+                            st.rerun()
+
+                    if st.session_state["active_inspect_tab"] == "summary":
+                        st.markdown('<div class="summary-box">', unsafe_allow_html=True)
+                        st.markdown('<div class="summary-heading">What It Does</div>', unsafe_allow_html=True)
+                        st.markdown(f'<p class="summary-text">{what_it_does or "No summary available."}</p>', unsafe_allow_html=True)
+                        st.markdown('<div class="summary-heading alt">How It Works</div>', unsafe_allow_html=True)
+                        if how_it_works:
+                            rows = "".join(
+                                f'<div class="how-it-works-row"><span class="how-it-works-num">{i}</span><span>{step}</span></div>'
+                                for i, step in enumerate(how_it_works, 1)
+                            )
+                            st.markdown(f'<div class="step-scroll-box">{rows}</div>', unsafe_allow_html=True)
+                        else:
+                            st.caption("No step-by-step walkthrough available.")
+                        st.markdown('</div>', unsafe_allow_html=True)
+
+                    elif st.session_state["active_inspect_tab"] == "keyfeatures":
+                        st.markdown('<div class="summary-box">', unsafe_allow_html=True)
+                        st.markdown('<div class="summary-heading">Key Features</div>', unsafe_allow_html=True)
+                        if key_features:
+                            rows = "".join(
+                                f'<div class="key-feature-row"><span class="key-feature-code">{kf.get("code","")}</span>{kf.get("description","")}</div>'
+                                for kf in key_features
+                            )
+                            st.markdown(f'<div class="step-scroll-box">{rows}</div>', unsafe_allow_html=True)
+                        else:
+                            st.caption("No key features detected for this code.")
+                        st.markdown('</div>', unsafe_allow_html=True)
+
+                    st.markdown("---")
+
+                # ============================================================
                 # SECTION 2 — EXACT ATTACHED IMAGE SEGMENT PILLS
                 # ============================================================
                 st.markdown('<div class="panel-heading">Segments — Click to Explore</div>', unsafe_allow_html=True)
@@ -1124,8 +1353,8 @@ with col_right:
 
                         theme = get_segment_theme(idx, seg_name)
 
-                        # No emojis in the segments section — clean, vivid text only
-                        expander_label = f"{seg_name}  —  {seg_use}"
+                        # No emojis in the segments section — colorful, bold heading text
+                        expander_label = f"**:{theme['st_color']}[{seg_name}]**  —  {seg_use}"
 
                         with st.expander(expander_label, expanded=False):
                             # CLEAN, VIVID SEGMENT PILL — no emojis
@@ -1255,6 +1484,6 @@ RULES:
 # ── FOOTER ────────────────────────────────────────────────
 st.markdown("""
 <div style="text-align:center;color:#475569;font-size:12px;margin-top:35px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.06);font-family:'Space Grotesk',sans-serif;">
-    ⚡ DECODE — "EVERY LINE makes sense." • Powered by Streamlit & Gemini
+    ⚡ DECODE — "Know What You Code." • Powered by Streamlit & Gemini
 </div>
 """, unsafe_allow_html=True)
