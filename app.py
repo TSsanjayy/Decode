@@ -30,24 +30,34 @@ st.set_page_config(
 env_api_key = os.getenv("GEMINI_API_KEY", "")
 
 with st.sidebar:
-    st.markdown("### ⚙️ Engine Settings")
+    st.markdown('<div class="sidebar-eyebrow">Configuration</div><div class="sidebar-title">⚙️ Engine Settings</div>', unsafe_allow_html=True)
     user_api_key = st.text_input("Gemini API Key", value=env_api_key, type="password")
     selected_model = st.selectbox(
         "Model Version",
         ["gemini-3.6-flash", "gemini-3.7-flash", "gemini-3.5-flash"],
         index=0
     )
+    _key_live = user_api_key.strip() if user_api_key else env_api_key.strip()
+    if _key_live:
+        st.markdown('<div class="status-chip online"><span class="status-dot"></span>API Key Connected</div>', unsafe_allow_html=True)
+    else:
+        st.markdown('<div class="status-chip offline"><span class="status-dot"></span>No API Key</div>', unsafe_allow_html=True)
     st.markdown("---")
-    st.markdown("""
-    **Decode Features:**
-    - 🚨 Instant Bug / Error Detection & Fix
-    - 📊 Deep Time & Space Complexity Breakdown
-    - 🧩 Smart Functional Segments
-    - 🧠 Simple Purpose & Logic Explanations
-    - 📖 Line-by-Line Logic Breakdown
-    - ⚡ Code Optimizer & Comparison
-    - 💬 Contextual Code Tutor
-    """)
+    st.markdown('<div class="sidebar-eyebrow" style="margin-bottom:8px;">Decode Features</div>', unsafe_allow_html=True)
+    _features = [
+        ("🚨", "Instant Bug / Error Detection & Fix"),
+        ("📊", "Deep Time & Space Complexity Breakdown"),
+        ("🧩", "Smart Functional Segments"),
+        ("🧠", "Simple Purpose & Logic Explanations"),
+        ("📖", "Line-by-Line Logic Breakdown"),
+        ("⚡", "Code Optimizer & Comparison"),
+        ("💬", "Contextual Code Tutor"),
+    ]
+    for _icon, _label in _features:
+        st.markdown(
+            f'<div class="sidebar-feature-row"><span class="sidebar-feature-icon">{_icon}</span><span>{_label}</span></div>',
+            unsafe_allow_html=True
+        )
 
 ACTIVE_API_KEY = user_api_key.strip() if user_api_key else env_api_key.strip()
 
@@ -77,13 +87,48 @@ code, pre {
 
 .stApp {
     background:
-        radial-gradient(circle at 10% 15%, rgba(124,58,237,0.14), transparent 40%),
-        radial-gradient(circle at 90% 15%, rgba(217,119,6,0.10), transparent 40%),
-        radial-gradient(circle at 50% 85%, rgba(236,72,153,0.07), transparent 45%),
-        #04050b;
+        radial-gradient(circle at 10% 15%, rgba(124,58,237,0.16), transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(217,119,6,0.11), transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(236,72,153,0.08), transparent 45%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.014) 0px, rgba(255,255,255,0.014) 1px, transparent 1px, transparent 46px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.014) 0px, rgba(255,255,255,0.014) 1px, transparent 1px, transparent 46px),
+        #030204;
     color: #F1F5F9;
 }
 .block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 100%; }
+
+/* Gradient dividers instead of plain gray lines */
+hr {
+    border: none !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(168,85,247,0.5), rgba(244,114,182,0.4), transparent) !important;
+    margin: 14px 0 !important;
+}
+
+/* Streamlit button polish: rounded pill, subtle lift on hover */
+.stButton button {
+    border-radius: 10px !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    transition: border-color 0.18s ease, background 0.18s ease !important;
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(255,255,255,0.10) !important;
+    color: #E2E8F0 !important;
+}
+.stButton button:hover {
+    border-color: rgba(59,130,246,0.5) !important;
+    background: rgba(59,130,246,0.08) !important;
+}
+.stButton button[kind="primary"] {
+    background: rgba(59,130,246,0.16) !important;
+    border: 1px solid rgba(59,130,246,0.6) !important;
+    color: #BFDBFE !important;
+    box-shadow: none !important;
+}
+.stButton button[kind="primary"]:hover {
+    background: rgba(59,130,246,0.25) !important;
+    border-color: rgba(59,130,246,0.85) !important;
+}
 
 [data-testid="stHorizontalBlock"] > div:first-child {
     position: sticky !important;
@@ -98,60 +143,62 @@ code, pre {
     overflow-y: auto;
     padding-right: 8px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139,92,246,0.5) rgba(15,23,42,0.6);
+    scrollbar-color: rgba(139,92,246,0.5) rgba(16,15,19,0.6);
 }
 .scroll-container::-webkit-scrollbar { width: 6px; }
-.scroll-container::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 10px; }
+.scroll-container::-webkit-scrollbar-track { background: rgba(16,15,19,0.6); border-radius: 10px; }
 .scroll-container::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #F472B6); border-radius: 10px; }
 
 .inspect-box {
-    background: rgba(6,9,18,0.92);
+    background: rgba(3,3,6,0.95);
     border: 1px solid rgba(139,92,246,0.35);
     border-radius: 14px;
     padding: 14px;
     margin-top: 10px;
     margin-bottom: 14px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
 .inspect-scroll {
     max-height: 240px;
     overflow-y: auto;
     padding-right: 6px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139,92,246,0.5) rgba(15,23,42,0.6);
+    scrollbar-color: rgba(139,92,246,0.5) rgba(16,15,19,0.6);
 }
 .inspect-scroll::-webkit-scrollbar { width: 5px; }
-.inspect-scroll::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 8px; }
+.inspect-scroll::-webkit-scrollbar-track { background: rgba(16,15,19,0.6); border-radius: 8px; }
 .inspect-scroll::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #F472B6); border-radius: 8px; }
 
 /* ── HERO BANNER ── */
 .hero-header {
     position: relative;
     padding: 26px 34px;
-    border-radius: 22px;
-    background: linear-gradient(135deg, rgba(7,9,20,0.98) 0%, rgba(14,8,28,0.98) 55%, rgba(4,14,22,0.98) 100%);
-    border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(6,6,8,0.99) 0%, rgba(8,8,12,0.99) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 24px;
     flex-wrap: wrap;
-    box-shadow: 0 16px 45px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
     overflow: hidden;
 }
 .hero-header::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #FBBF24 0%, #A855F7 50%, #F472B6 100%);
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3B82F6, #60A5FA, #3B82F6, transparent);
+    opacity: 0.9;
 }
 .hero-header::after {
     content: "";
     position: absolute;
     top: -60%; right: -10%;
     width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(251,191,36,0.14), transparent 65%);
+    background: radial-gradient(circle, rgba(59,130,246,0.10), transparent 65%);
     pointer-events: none;
 }
 .hero-left {
@@ -182,7 +229,7 @@ code, pre {
     text-transform: uppercase;
     font-family: 'Orbitron', 'Space Grotesk', sans-serif;
     color: #E8ECF1;
-    text-shadow: 0 0 1px rgba(232,236,241,0.6), 0 0 22px rgba(148,163,184,0.28);
+    text-shadow: 0 0 1px rgba(232,236,241,0.6), 0 0 16px rgba(148,163,184,0.2);
     display: inline-block;
     transform: scaleY(1.2);
     transform-origin: center;
@@ -212,15 +259,14 @@ code, pre {
 }
 .hero-badge {
     position: relative;
-    background: linear-gradient(135deg, rgba(251,191,36,0.16), rgba(168,85,247,0.20));
-    border: 1px solid rgba(251,191,36,0.45);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(96,165,250,0.35);
     padding: 9px 18px;
     border-radius: 30px;
     font-size: 13px;
     font-weight: 700;
-    color: #FBBF24;
+    color: #93C5FD;
     font-family: 'Space Grotesk', sans-serif;
-    box-shadow: 0 4px 16px rgba(251,191,36,0.15);
     white-space: nowrap;
 }
 .hero-chip-row {
@@ -244,12 +290,16 @@ code, pre {
 
 
 .glass-card {
-    background: rgba(7,10,20,0.9);
+    background: rgba(4,4,7,0.94);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 18px;
     margin-bottom: 14px;
     backdrop-filter: blur(10px);
+    transition: border-color 0.2s ease;
+}
+.glass-card:hover {
+    border-color: rgba(168,85,247,0.35);
 }
 .panel-heading {
     font-size: 18px;
@@ -310,18 +360,68 @@ code, pre {
 }
 
 /* ── COMPLEXITY BOXES ── */
+/* ── UNIFIED STAT CARD (like reference "141 MODULES | 1872 RESOURCES") ── */
+.stat-card {
+    display: flex;
+    align-items: center;
+    background: rgba(3,3,6,0.95);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+}
+.stat-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+.stat-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #94A3B8;
+    margin-top: 4px;
+}
+.stat-divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgba(255,255,255,0.10);
+    margin: 0 20px;
+}
+
 .complexity-box {
-    background: rgba(8,11,22,0.92);
-    border: 1px solid rgba(255,255,255,0.09);
+    background: rgba(3,3,6,0.95);
+    border: 1px solid rgba(255,255,255,0.08);
     border-radius: 14px;
     padding: 14px 16px;
     margin-bottom: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
 }
 .complexity-value {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 22px;
-    font-weight: 800;
+    font-size: 32px;
+    font-weight: 900;
     margin: 4px 0;
+    letter-spacing: -0.5px;
+}
+.eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #71717A;
+    margin-bottom: 4px;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 /* ── STEP-BY-STEP SCROLLABLE PROOF ── */
@@ -331,23 +431,25 @@ code, pre {
     padding: 4px 10px 4px 2px;
     margin-top: 8px;
     scrollbar-width: thin;
-    scrollbar-color: rgba(139,92,246,0.5) rgba(15,23,42,0.6);
+    scrollbar-color: rgba(139,92,246,0.5) rgba(16,15,19,0.6);
 }
 .step-scroll-box::-webkit-scrollbar { width: 5px; }
-.step-scroll-box::-webkit-scrollbar-track { background: rgba(15,23,42,0.6); border-radius: 8px; }
+.step-scroll-box::-webkit-scrollbar-track { background: rgba(16,15,19,0.6); border-radius: 8px; }
 .step-scroll-box::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #A855F7, #F472B6); border-radius: 8px; }
 .step-row {
     display: flex;
     gap: 10px;
-    background: rgba(6,9,18,0.85);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(3,3,6,0.9);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 10px;
     padding: 9px 12px;
     margin-bottom: 7px;
     font-size: 12.5px;
     color: #E2E8F0;
     line-height: 1.5;
+    transition: border-color 0.2s ease;
 }
+.step-row:hover { border-color: rgba(192,132,252,0.4); }
 .step-num {
     flex-shrink: 0;
     width: 22px;
@@ -371,10 +473,17 @@ code, pre {
     border-radius: 12px;
     padding: 13px 18px;
     margin-bottom: 12px;
-    border-left-width: 5px;
+    border-left-width: 4px;
     border-left-style: solid;
-    background: rgba(7,10,20,0.94);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(3,3,6,0.96);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+    transition: box-shadow 0.2s ease;
+}
+.segment-pill:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
 .segment-pill-title {
     font-family: 'Space Grotesk', sans-serif;
@@ -397,12 +506,13 @@ code, pre {
 
 /* ── CODE SUMMARY & KEY FEATURES ── */
 .summary-box {
-    background: rgba(7,10,20,0.92);
-    border: 1px solid rgba(251,191,36,0.28);
+    background: rgba(4,4,7,0.95);
+    border: 1px solid rgba(251,191,36,0.3);
     border-radius: 14px;
     padding: 16px 18px;
     margin-top: 10px;
     margin-bottom: 14px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.5);
 }
 .summary-heading {
     font-family: 'Space Grotesk', sans-serif;
@@ -422,7 +532,7 @@ code, pre {
 .how-it-works-row {
     display: flex;
     gap: 10px;
-    background: rgba(15,23,42,0.55);
+    background: rgba(255,255,255,0.03);
     border-radius: 10px;
     padding: 8px 12px;
     margin-bottom: 6px;
@@ -445,7 +555,7 @@ code, pre {
     color: #FBBF24;
 }
 .key-feature-row {
-    background: rgba(15,23,42,0.55);
+    background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 10px;
     padding: 10px 14px;
@@ -486,11 +596,6 @@ code, pre {
     opacity: 0.9;
 }
 
-/* ── APPLY FIX BUTTON HIGHLIGHT ── */
-.stButton button[kind="primary"] {
-    box-shadow: 0 4px 14px rgba(139,92,246,0.35);
-}
-
 .use-banner {
     background: linear-gradient(90deg, rgba(251,191,36,0.12), rgba(124,58,237,0.08));
     border-left: 4px solid #FBBF24;
@@ -516,9 +621,10 @@ code, pre {
 
 .badge-match {
     padding: 12px 16px;
-    border-radius: 12px;
-    background: rgba(16,185,129,0.14);
-    border: 1px solid rgba(16,185,129,0.4);
+    border-radius: 10px;
+    background: rgba(3,3,6,0.9);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-left: 3px solid #10B981;
     color: #6EE7B7;
     font-weight: 600;
     font-size: 13.5px;
@@ -526,9 +632,10 @@ code, pre {
 }
 .badge-partial {
     padding: 12px 16px;
-    border-radius: 12px;
-    background: rgba(245,158,11,0.14);
-    border: 1px solid rgba(245,158,11,0.4);
+    border-radius: 10px;
+    background: rgba(3,3,6,0.9);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-left: 3px solid #F59E0B;
     color: #FCD34D;
     font-weight: 600;
     font-size: 13.5px;
@@ -536,9 +643,10 @@ code, pre {
 }
 .badge-mismatch {
     padding: 12px 16px;
-    border-radius: 12px;
-    background: rgba(239,68,68,0.14);
-    border: 1px solid rgba(239,68,68,0.4);
+    border-radius: 10px;
+    background: rgba(3,3,6,0.9);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-left: 3px solid #EF4444;
     color: #FCA5A5;
     font-weight: 600;
     font-size: 13.5px;
@@ -552,15 +660,15 @@ code, pre {
     font-size: 12px;
     font-weight: 700;
     font-family: 'JetBrains Mono', monospace;
-    background: rgba(30,41,59,0.85);
+    background: rgba(28,25,29,0.85);
     border: 1px solid rgba(255,255,255,0.12);
     color: #FBBF24;
     margin-right: 6px;
 }
 
 .line-card {
-    background: rgba(6,9,18,0.85);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(3,3,6,0.9);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 12px;
     padding: 12px 14px;
     margin-bottom: 8px;
@@ -569,7 +677,7 @@ code, pre {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     color: #FCD34D;
-    background: rgba(12,18,35,0.7);
+    background: rgba(0,0,0,0.5);
     padding: 5px 8px;
     border-radius: 6px;
     margin-bottom: 6px;
@@ -578,29 +686,43 @@ code, pre {
 }
 
 .showcase-box {
-    background: rgba(17,24,39,0.7);
+    background: rgba(4,4,7,0.9);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 14px;
     padding: 16px;
     margin-bottom: 12px;
+    transition: border-color 0.2s ease;
+}
+.showcase-box:hover {
+    border-color: rgba(168,85,247,0.35);
 }
 .showcase-icon { font-size: 22px; margin-bottom: 6px; }
 .showcase-title { font-size: 14.5px; font-weight: 700; color: #F1F5F9; font-family: 'Space Grotesk', sans-serif; }
 .showcase-desc { font-size: 12.5px; color: #94A3B8; margin-top: 4px; line-height: 1.4; }
 
 .stTextArea textarea {
-    background-color: rgba(15,23,42,0.9) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
+    background-color: rgba(3,3,6,0.92) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 12px !important;
     color: #F8FAFC !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 13.5px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+.stTextArea textarea:focus {
+    border-color: rgba(59,130,246,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
 }
 .stTextInput input {
-    background-color: rgba(15,23,42,0.9) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
+    background-color: rgba(3,3,6,0.92) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 10px !important;
     color: #F8FAFC !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+.stTextInput input:focus {
+    border-color: rgba(59,130,246,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
 }
 .stTabs [data-baseweb="tab-list"] { gap: 8px; }
 .stTabs [data-baseweb="tab"] {
@@ -609,6 +731,72 @@ code, pre {
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
 }
+
+/* ── SIDEBAR POLISH ── */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, rgba(6,6,9,0.99) 0%, rgba(4,4,6,0.99) 100%);
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+[data-testid="stSidebar"] .stTextInput input,
+[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
+    background-color: rgba(255,255,255,0.03) !important;
+    border-color: rgba(255,255,255,0.10) !important;
+}
+.sidebar-eyebrow {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #71717A;
+    margin-bottom: 2px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.sidebar-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #F1F5F9;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 14px;
+}
+.status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 14px;
+}
+.status-chip.online {
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.4);
+    color: #6EE7B7;
+}
+.status-chip.offline {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.4);
+    color: #FCA5A5;
+}
+.status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+.sidebar-feature-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    color: #CBD5E1;
+    margin-bottom: 4px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-feature-icon { font-size: 14px; flex-shrink: 0; }
 </style>""", unsafe_allow_html=True)
 
 # ── SESSION STATE ──────────────────────────────────────────
@@ -630,9 +818,9 @@ SEGMENT_THEMES = [
         "border": "1px solid rgba(192,132,252,0.65)"
     },
     {
-        "icon": "📥", "color": "#CBD5E1", "st_color": "gray",
-        "bg": "linear-gradient(90deg, rgba(51,65,85,0.45) 0%, rgba(15,20,30,0.7) 100%)",
-        "border": "1px solid rgba(203,213,225,0.5)"
+        "icon": "📥", "color": "#60A5FA", "st_color": "blue",
+        "bg": "linear-gradient(90deg, rgba(30,64,175,0.4) 0%, rgba(12,20,40,0.7) 100%)",
+        "border": "1px solid rgba(96,165,250,0.55)"
     },
     {
         "icon": "⚙️", "color": "#FB923C", "st_color": "orange",
@@ -973,7 +1161,7 @@ col_left, col_right = st.columns([1, 1], gap="large")
 # LEFT COLUMN: INPUT & CONTROLS
 # ──────────────────────────────────────────────────────────
 with col_left:
-    st.markdown('<div class="panel-heading">💻 Code Input & Configuration</div>', unsafe_allow_html=True)
+    st.markdown('<div class="eyebrow">Step 1 · Setup</div><div class="panel-heading">💻 Code Input & Configuration</div>', unsafe_allow_html=True)
 
     sel = st.selectbox("⚡ Quick Load Sample:", ["-- Select Template (Optional) --"] + list(CODE_TEMPLATES.keys()))
     if sel != "-- Select Template (Optional) --":
@@ -1045,7 +1233,7 @@ with col_left:
 # ──────────────────────────────────────────────────────────
 with col_right:
     if st.session_state["analysis_data"] is None and st.session_state["improved_data"] is None:
-        st.markdown('<div class="panel-heading">✨ Studio Capabilities</div>', unsafe_allow_html=True)
+        st.markdown('<div class="eyebrow">Getting Started</div><div class="panel-heading">✨ Studio Capabilities</div>', unsafe_allow_html=True)
         st.markdown("""
         <div class="glass-card" style="border-color:rgba(124,58,237,0.35);">
             <h4 style="margin:0 0 8px 0;color:#F8FAFC;font-family:'Space Grotesk',sans-serif;">👋 Welcome to Decode</h4>
@@ -1148,7 +1336,7 @@ with col_right:
                 # ============================================================
                 # SECTION 1 — OVERALL CODE ANALYSIS & COMPLEXITY PROOFS
                 # ============================================================
-                st.markdown('<div class="panel-heading">📊 Overall Code Analysis</div>', unsafe_allow_html=True)
+                st.markdown('<div class="eyebrow">Step 2 · Insights</div><div class="panel-heading">📊 Overall Code Analysis</div>', unsafe_allow_html=True)
                 
                 t_val = overall.get("time_complexity") or "O(N)"
                 t_proof = overall.get("time_complexity_reasoning") or "Derived by analyzing loop iterations and recursive paths relative to input size N."
@@ -1158,17 +1346,25 @@ with col_right:
                 s_proof = overall.get("space_complexity_reasoning") or "Derived by tracking additional memory structures, arrays, and variables relative to input size N."
                 s_steps = overall.get("space_complexity_steps") or []
 
+                st.markdown(f"""
+                <div class="stat-card">
+                    <div class="stat-half">
+                        <div class="stat-value" style="color:#60A5FA;">{t_val}</div>
+                        <div class="stat-label">Time Complexity</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-half">
+                        <div class="stat-value" style="color:#C084FC;">{s_val}</div>
+                        <div class="stat-label">Space Complexity</div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
                 col_t, col_s = st.columns(2)
                 with col_t:
-                    st.markdown(f"""
-                    <div class="complexity-box" style="border-color:rgba(251,191,36,0.35);">
-                        <span style="color:#94A3B8;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;">⏳ Time Complexity</span>
-                        <div class="complexity-value" style="color:#FBBF24;">{t_val}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
                     with st.expander("🔍 How Time Complexity was calculated", expanded=False):
                         st.markdown(f"""
-                        <div style="background:rgba(12,18,35,0.7);padding:12px 14px;border-radius:10px;border-left:3px solid #FBBF24;font-size:13px;color:#E2E8F0;line-height:1.6;">
+                        <div style="background:rgba(15,13,17,0.7);padding:12px 14px;border-radius:10px;border-left:3px solid #60A5FA;font-size:13px;color:#E2E8F0;line-height:1.6;">
                             <strong>Explanation:</strong><br>{t_proof}
                         </div>
                         """, unsafe_allow_html=True)
@@ -1185,15 +1381,9 @@ with col_right:
                                 st.caption("No detailed step-by-step breakdown available.")
 
                 with col_s:
-                    st.markdown(f"""
-                    <div class="complexity-box" style="border-color:rgba(192,132,252,0.35);">
-                        <span style="color:#94A3B8;font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;">💾 Space Complexity</span>
-                        <div class="complexity-value" style="color:#C084FC;">{s_val}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
                     with st.expander("🔍 How Space Complexity was calculated", expanded=False):
                         st.markdown(f"""
-                        <div style="background:rgba(12,18,35,0.7);padding:12px 14px;border-radius:10px;border-left:3px solid #C084FC;font-size:13px;color:#E2E8F0;line-height:1.6;">
+                        <div style="background:rgba(15,13,17,0.7);padding:12px 14px;border-radius:10px;border-left:3px solid #C084FC;font-size:13px;color:#E2E8F0;line-height:1.6;">
                             <strong>Explanation:</strong><br>{s_proof}
                         </div>
                         """, unsafe_allow_html=True)
@@ -1243,9 +1433,9 @@ with col_right:
                     if funcs:
                         for f in funcs:
                             ftype = f.get("type", "Function")
-                            fcolor = "#34D399" if "user" in ftype.lower() else "#FBBF24"
+                            fcolor = "#34D399" if "user" in ftype.lower() else "#60A5FA"
                             st.markdown(f"""
-                            <div style="background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
+                            <div style="background:rgba(16,15,19,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
                                 <span style="font-family:JetBrains Mono,monospace;color:#FCD34D;font-weight:700;font-size:13.5px;">{f.get('name', '')}</span><br>
                                 <span style="background:{fcolor}22;color:{fcolor};font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:4px;">{ftype}</span><br>
                                 <span style="color:#CBD5E1;font-size:12.5px;margin-top:4px;display:block;">{f.get('use', '')}</span>
@@ -1260,7 +1450,7 @@ with col_right:
                     if vars_list:
                         for v in vars_list:
                             st.markdown(f"""
-                            <div style="background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
+                            <div style="background:rgba(16,15,19,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
                                 <span style="font-family:JetBrains Mono,monospace;color:#C084FC;font-weight:700;font-size:13.5px;">{v.get('name', '')}</span><br>
                                 <span style="background:rgba(192,132,252,0.15);color:#C084FC;font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:4px;">{v.get('datatype', 'variable')}</span><br>
                                 <span style="color:#CBD5E1;font-size:12.5px;margin-top:4px;display:block;">{v.get('use', '')}</span>
@@ -1275,7 +1465,7 @@ with col_right:
                     if kws:
                         for kw in kws:
                             st.markdown(f"""
-                            <div style="background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
+                            <div style="background:rgba(16,15,19,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px;margin-bottom:8px;">
                                 <span style="font-family:JetBrains Mono,monospace;color:#FCD34D;font-weight:700;font-size:13.5px;">{kw.get('keyword', '')}</span><br>
                                 <span style="color:#CBD5E1;font-size:12.5px;margin-top:4px;display:block;">{kw.get('use', '')}</span>
                             </div>
@@ -1340,7 +1530,7 @@ with col_right:
                 # ============================================================
                 # SECTION 2 — EXACT ATTACHED IMAGE SEGMENT PILLS
                 # ============================================================
-                st.markdown('<div class="panel-heading">Segments — Click to Explore</div>', unsafe_allow_html=True)
+                st.markdown('<div class="eyebrow">Step 3 · Walkthrough</div><div class="panel-heading">Segments — Click to Explore</div>', unsafe_allow_html=True)
 
                 if not has_err:
                     for idx, seg in enumerate(segments, 1):
@@ -1405,6 +1595,7 @@ with col_right:
         with tab_imp:
             if st.session_state["improved_data"]:
                 imp = st.session_state["improved_data"]
+                st.markdown('<div class="eyebrow">Optimizer</div>', unsafe_allow_html=True)
                 st.markdown(f"### 💡 {imp.get('improved_title', 'Improved Code')}")
                 st.markdown(f"""
                 <div class="glass-card" style="border-left:4px solid #10B981;margin-bottom:14px;">
