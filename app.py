@@ -39,7 +39,12 @@ with st.sidebar:
     )
     _key_live = user_api_key.strip() if user_api_key else env_api_key.strip()
     if _key_live:
-        st.markdown('<div class="status-chip online"><span class="status-dot"></span>API Key Connected</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="status-chip online"><span class="status-dot"></span>API Key Connected</div>'
+            f'<div class="status-chip" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.4);color:#93C5FD;">'
+            f'<span class="status-dot"></span>{selected_model}</div>',
+            unsafe_allow_html=True
+        )
     else:
         st.markdown('<div class="status-chip offline"><span class="status-dot"></span>No API Key</div>', unsafe_allow_html=True)
     st.markdown("---")
@@ -95,7 +100,7 @@ code, pre {
         #030204;
     color: #F1F5F9;
 }
-.block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 100%; }
+.block-container { padding-top: 0.6rem; padding-bottom: 2rem; max-width: 100%; }
 
 /* Gradient dividers instead of plain gray lines */
 hr {
@@ -172,17 +177,20 @@ hr {
 /* ── HERO BANNER ── */
 .hero-header {
     position: relative;
-    padding: 26px 34px;
+    padding: 20px 32px;
     border-radius: 18px;
-    background: linear-gradient(135deg, rgba(6,6,8,0.99) 0%, rgba(8,8,12,0.99) 100%);
-    border: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 20px;
+    background:
+        radial-gradient(circle at 88% -25%, rgba(59,130,246,0.18), transparent 55%),
+        radial-gradient(circle at 8% 130%, rgba(96,165,250,0.10), transparent 55%),
+        linear-gradient(135deg, rgba(7,7,9,0.99) 0%, rgba(5,5,7,0.99) 100%);
+    border: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 24px;
     flex-wrap: wrap;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+    box-shadow: 0 14px 38px rgba(0,0,0,0.65), 0 0 0 1px rgba(59,130,246,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
     overflow: hidden;
 }
 .hero-header::before {
@@ -192,14 +200,6 @@ hr {
     height: 2px;
     background: linear-gradient(90deg, transparent, #3B82F6, #60A5FA, #3B82F6, transparent);
     opacity: 0.9;
-}
-.hero-header::after {
-    content: "";
-    position: absolute;
-    top: -60%; right: -10%;
-    width: 320px; height: 320px;
-    background: radial-gradient(circle, rgba(59,130,246,0.10), transparent 65%);
-    pointer-events: none;
 }
 .hero-left {
     display: flex;
@@ -217,8 +217,8 @@ hr {
     width: 16px;
     height: 3px;
     border-radius: 2px;
-    background: #EF4444;
-    box-shadow: 0 0 8px rgba(239,68,68,0.7);
+    background: #60A5FA;
+    box-shadow: 0 0 8px rgba(96,165,250,0.7);
 }
 .hero-brand {
     font-size: 46px;
@@ -235,33 +235,32 @@ hr {
     transform-origin: center;
 }
 .hero-tagline {
-    color: #FBBF24;
+    color: #94A3B8;
     font-size: 13.5px;
     font-weight: 800;
     letter-spacing: 2.8px;
     text-transform: uppercase;
     margin-top: 8px;
     font-family: 'Space Grotesk', sans-serif;
-    text-shadow: 0 0 12px rgba(251,191,36,0.4);
 }
 .tagline-code {
     font-weight: 900;
-    color: #EF4444;
-    text-shadow: 0 0 10px rgba(239,68,68,0.45);
+    color: #60A5FA;
+    text-shadow: 0 0 10px rgba(96,165,250,0.45);
 }
 .hero-right {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
     position: relative;
     z-index: 1;
 }
 .hero-badge {
     position: relative;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(96,165,250,0.35);
-    padding: 9px 18px;
+    background: rgba(59,130,246,0.10);
+    border: 1px solid rgba(96,165,250,0.4);
+    padding: 9px 20px;
     border-radius: 30px;
     font-size: 13px;
     font-weight: 700;
@@ -270,10 +269,9 @@ hr {
     white-space: nowrap;
 }
 .hero-chip-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(118px, 1fr));
     gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
 }
 .hero-chip {
     font-family: 'Space Grotesk', sans-serif;
@@ -281,11 +279,12 @@ hr {
     font-weight: 700;
     letter-spacing: 0.3px;
     color: #CBD5E1;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.10);
-    padding: 6px 12px;
-    border-radius: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 7px 12px;
+    border-radius: 9px;
     white-space: nowrap;
+    text-align: center;
 }
 
 
@@ -666,6 +665,34 @@ hr {
     margin-right: 6px;
 }
 
+.code-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94A3B8;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.code-header .code-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+div[data-testid="element-container"]:has(.code-header) + div[data-testid="element-container"] pre {
+    margin-top: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
 .line-card {
     background: rgba(3,3,6,0.9);
     border: 1px solid rgba(255,255,255,0.06);
@@ -724,13 +751,86 @@ hr {
     border-color: rgba(59,130,246,0.6) !important;
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
 }
-.stTabs [data-baseweb="tab-list"] { gap: 8px; }
+.stTabs [data-baseweb="tab-list"] {
+    gap: 4px;
+    background: rgba(255,255,255,0.03);
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.07);
+}
 .stTabs [data-baseweb="tab"] {
-    border-radius: 10px 10px 0 0;
-    padding: 8px 16px;
+    border-radius: 9px;
+    padding: 8px 18px;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
+    color: #94A3B8;
+    background: transparent;
 }
+.stTabs [aria-selected="true"] {
+    background: rgba(59,130,246,0.16) !important;
+    color: #BFDBFE !important;
+}
+.stTabs [data-baseweb="tab-highlight"] { background: transparent !important; }
+.stTabs [data-baseweb="tab-border"] { display: none !important; }
+
+/* ── WORKFLOW STEPPER ── */
+.stepper {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+.step-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 10.5px;
+    font-weight: 800;
+    border: 2px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.03);
+    color: #71717A;
+    z-index: 1;
+}
+.step-circle.done {
+    border-color: #3B82F6;
+    background: rgba(59,130,246,0.18);
+    color: #93C5FD;
+}
+.step-circle.active {
+    border-color: #3B82F6;
+    background: #3B82F6;
+    color: #fff;
+}
+.step-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #71717A;
+    margin-top: 4px;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+.step-label.on { color: #BFDBFE; }
+.step-line {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.10);
+    z-index: 0;
+}
+.step-line.done { background: #3B82F6; }
+.step-item:last-child .step-line { display: none; }
 
 /* ── SIDEBAR POLISH ── */
 [data-testid="stSidebar"] {
@@ -768,6 +868,7 @@ hr {
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
     margin-bottom: 14px;
+    margin-right: 6px;
 }
 .status-chip.online {
     background: rgba(16,185,129,0.12);
@@ -1232,6 +1333,37 @@ with col_left:
 # RIGHT COLUMN: DECODE RESULTS
 # ──────────────────────────────────────────────────────────
 with col_right:
+    _has_code = bool(st.session_state["code_input"].strip())
+    _has_analysis = st.session_state["analysis_data"] is not None
+    _has_error_state = _has_analysis and st.session_state["analysis_data"].get("has_error", False)
+    _explored = _has_analysis and not _has_error_state
+
+    _s1 = "done" if _has_code else "active"
+    _s2 = "done" if _has_analysis else ("active" if _has_code else "")
+    _s3 = "done" if _explored else ("active" if _has_analysis else "")
+    _l1 = "on" if _has_code else ""
+    _l2 = "on" if _has_analysis else ""
+    _l3 = "on" if _explored else ""
+
+    st.markdown(f"""
+    <div class="stepper">
+        <div class="step-item">
+            <div class="step-line {'done' if _has_analysis else ''}"></div>
+            <div class="step-circle {_s1}">{'✓' if _has_code else '1'}</div>
+            <div class="step-label {_l1}">SETUP</div>
+        </div>
+        <div class="step-item">
+            <div class="step-line {'done' if _explored else ''}"></div>
+            <div class="step-circle {_s2}">{'✓' if _has_analysis else '2'}</div>
+            <div class="step-label {_l2}">ANALYZE</div>
+        </div>
+        <div class="step-item">
+            <div class="step-circle {_s3}">{'✓' if _explored else '3'}</div>
+            <div class="step-label {_l3}">EXPLORE</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
     if st.session_state["analysis_data"] is None and st.session_state["improved_data"] is None:
         st.markdown('<div class="eyebrow">Getting Started</div><div class="panel-heading">✨ Studio Capabilities</div>', unsafe_allow_html=True)
         st.markdown("""
@@ -1319,7 +1451,10 @@ with col_right:
                     """, unsafe_allow_html=True)
 
                     if err_info.get("corrected_code"):
-                        st.markdown("**✅ Corrected Working Code:**")
+                        st.markdown(
+                            f'<div class="code-header"><span class="code-dot" style="background:#10B981;"></span>Fixed · {st.session_state["language"]}</div>',
+                            unsafe_allow_html=True
+                        )
                         st.code(err_info.get("corrected_code"), language=st.session_state["language"].lower())
                         if st.button("🛠️ Apply Corrected Code", key="apply_fix_btn", type="primary", use_container_width=True):
                             st.session_state["code_input"] = err_info.get("corrected_code")
@@ -1570,6 +1705,10 @@ with col_right:
                                 """, unsafe_allow_html=True)
 
                             # Exact Code Slice
+                            st.markdown(
+                                f'<div class="code-header"><span class="code-dot" style="background:#71717A;"></span>Snippet · {st.session_state["language"]}</div>',
+                                unsafe_allow_html=True
+                            )
                             st.code(seg_code, language=st.session_state["language"].lower())
 
                             # Line-by-Line Breakdown
@@ -1634,14 +1773,29 @@ with col_right:
                     for pt in pts:
                         st.markdown(f"- ✅ {pt}")
                 st.markdown("#### ⚡ Improved Code:")
+                st.markdown(
+                    f'<div class="code-header"><span class="code-dot" style="background:#3B82F6;"></span>Optimized · {st.session_state["language"]}</div>',
+                    unsafe_allow_html=True
+                )
                 st.code(imp.get("improved_code",""), language=st.session_state["language"].lower())
             else:
                 st.info("Click **⚡ Improve Code** on the left to generate an optimized version.")
 
         # ── TAB 3: Q&A ──
         with tab_qa:
+            st.markdown('<div class="eyebrow">Tutor</div>', unsafe_allow_html=True)
             st.markdown("### 💬 Ask Doubts About Your Code")
             st.caption("Code-specific questions only. Off-topic questions will be politely refused.")
+
+            if not st.session_state["chat_history"].get("general"):
+                st.markdown("""
+                <div class="glass-card" style="border-color:rgba(59,130,246,0.3);">
+                    <p style="color:#94A3B8;font-size:13px;margin:0;line-height:1.5;">
+                        No questions yet — try asking something like <em>"why is this loop condition used?"</em> or <em>"what happens if the list is empty?"</em>
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+
             for msg in st.session_state["chat_history"].get("general", []):
                 st.chat_message(msg["role"]).write(msg["content"])
 
